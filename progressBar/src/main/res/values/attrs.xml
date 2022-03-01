@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ArcCircleProgressBar">
+        <attr name="progress" format="float"/>
+        <attr name="roundTips" format="boolean"/>
+
+        <attr name="indicatorWidth" format="dimension"/>
+        <attr name="indicatorStartAngle" format="float"/>
+        <attr name="indicatorEndAngle" format="float"/>
+        <attr name="indicatorColor" format="color"/>
+        <attr name="indicatorShader" format="integer">
+            <enum name="LinearGradient" value="0"/>
+            <enum name="RadialGradient" value="1"/>
+            <enum name="SweepGradient" value="2"/>
+        </attr>
+        <attr name="indicatorGradientLinearAngle" format="float"/>
+        <attr name="indicatorGradientWidth" format="dimension">
+            <enum name="fill" value="-1"/>
+        </attr>
+        <attr name="indicatorGradientColors" format="reference"/>
+        <attr name="indicatorGradientPositions" format="reference"/>
+
+        <attr name="canalWidth" format="dimension"/>
+        <attr name="canalStartAngle" format="float"/>
+        <attr name="canalEndAngle" format="float"/>
+        <attr name="canalColor" format="color"/>
+    </declare-styleable>
+</resources>

@@ -1,12 +1,11 @@
-package yinkio.android.customView
+package yinkio.android.customView.progressBar
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
+import android.content.res.TypedArray
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import yinkio.android.customView.R
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.min
@@ -30,10 +29,10 @@ class ArcCircleProgressBar : View {
     ) : super(context, attrs, defStyleAttr, defStyleRes)
 
 
+    private val oval = RectF()
 
-
-    private val indicator = Arc.Indicator()
-    private val canal = Arc.Canal()
+    val indicator = Arc.Indicator()
+    val canal = Arc.Canal()
 
 
 
@@ -45,35 +44,73 @@ class ArcCircleProgressBar : View {
         )?.apply {
             try {
                 val isRoundTips = getBoolean(R.styleable.ArcCircleProgressBar_roundTips, true)
-                indicator.apply {
-                    progress = getFloat(R.styleable.ArcCircleProgressBar_progress, 0f)
-                    width = getDimension(R.styleable.ArcCircleProgressBar_indicatorWidth, 10f)
-                    startAngle = getFloat(R.styleable.ArcCircleProgressBar_indicatorStartAngle, 0f)
-                    endAngle = getFloat(R.styleable.ArcCircleProgressBar_indicatorEndAngle, 360f)
-                    color = getColor(R.styleable.ArcCircleProgressBar_indicatorColor, Color.BLUE)
 
-                    tip.color = color
-                    tip.radius = width / 2
-                    this.isRoundTips = isRoundTips
-                }
+                setupIndicator(isRoundTips)
+                setupCanal(isRoundTips)
 
-                canal.apply {
-                    width = getDimension(R.styleable.ArcCircleProgressBar_canalWidth, 10f)
-                    startAngle = getFloat(R.styleable.ArcCircleProgressBar_canalStartAngle, 0f)
-                    endAngle = getFloat(R.styleable.ArcCircleProgressBar_canalEndAngle, 360f)
-                    color = getColor(R.styleable.ArcCircleProgressBar_canalColor, Color.BLUE)
-
-                    tip.radius = width / 2
-                    tip.color = color
-                    this.isRoundTips = isRoundTips
-                }
             } finally {
                 recycle()
             }
         }
     }
 
-    private val oval = RectF()
+
+    private fun TypedArray.setupIndicator(isRoundTips: Boolean) {
+        indicator.apply {
+            progress = getFloat(R.styleable.ArcCircleProgressBar_progress, 0f)
+            width = getDimension(R.styleable.ArcCircleProgressBar_indicatorWidth, 10f)
+            startAngle = getFloat(R.styleable.ArcCircleProgressBar_indicatorStartAngle, 0f)
+            endAngle = getFloat(R.styleable.ArcCircleProgressBar_indicatorEndAngle, 360f)
+            color = getColor(R.styleable.ArcCircleProgressBar_indicatorColor, Color.BLUE)
+
+
+            val shaderType = getInt(R.styleable.ArcCircleProgressBar_indicatorShader, -1)
+
+            val shader = when(shaderType){
+                LINEAR -> {
+                    val degrees = getFloat(R.styleable.ArcCircleProgressBar_indicatorGradientLinearAngle, 0f)
+                    val radius = getDimension(R.styleable.ArcCircleProgressBar_indicatorGradientWidth, -1f)
+                    val x = radius * cos(degrees * PI.toFloat() / 180)
+                    val y = radius * sin(degrees * PI.toFloat() / 180)
+
+                    val colorsRef = getResourceId(R.styleable.ArcCircleProgressBar_indicatorGradientColors, -1)
+                    val colors = resources.obtainTypedArray(colorsRef)
+                    val intArray = IntArray(colors.length())
+                    for (i in 0 until colors.length()){
+                        intArray[i] = colors.getInt(i, 0)
+
+                    }
+                    colors.recycle()
+                    LinearGradient(0f, 0f, x, y, intArray, null, Shader.TileMode.MIRROR)
+                }
+                SWEEP -> {null}
+                RADIAL -> {null}
+                else -> null
+            }
+            paint.shader = shader
+
+            tip.paint.shader = shader
+            tip.color = color
+            tip.radius = width / 2
+            this.isRoundTips = isRoundTips
+        }
+    }
+
+    private fun TypedArray.setupCanal(isRoundTips: Boolean) {
+        canal.apply {
+            width = getDimension(R.styleable.ArcCircleProgressBar_canalWidth, 10f)
+            startAngle = getFloat(R.styleable.ArcCircleProgressBar_canalStartAngle, 0f)
+            endAngle = getFloat(R.styleable.ArcCircleProgressBar_canalEndAngle, 360f)
+            color = getColor(R.styleable.ArcCircleProgressBar_canalColor, Color.BLUE)
+
+            tip.radius = width / 2
+            tip.color = color
+            this.isRoundTips = isRoundTips
+        }
+    }
+
+
+
 
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -154,7 +191,7 @@ class ArcCircleProgressBar : View {
         }
     }
 
-    private abstract class Arc{
+    abstract class Arc{
         open var width: Float = 10f
         open var color: Int = Color.BLACK
         open var startAngle: Float = 0f
@@ -208,7 +245,7 @@ class ArcCircleProgressBar : View {
     class Circle{
         var color: Int = Color.BLACK
         var radius = 0f
-        private val paint = Paint()
+        val paint = Paint()
 
         internal fun updatePaint(){
             paint.apply {
@@ -232,6 +269,10 @@ class ArcCircleProgressBar : View {
 
     companion object{
         private const val MAX_PROGRESS = 100f
+
+        const val LINEAR = 0
+        const val RADIAL = 1
+        const val SWEEP = 2
     }
 
     //TODO add tip clipping for assigning opacity of colors
