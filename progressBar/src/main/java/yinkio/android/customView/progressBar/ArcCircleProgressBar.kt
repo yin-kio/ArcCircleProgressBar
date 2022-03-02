@@ -34,7 +34,6 @@ class ArcCircleProgressBar : View {
         )?.apply {
             try {
                 val isRoundTips = getBoolean(R.styleable.ArcCircleProgressBar_roundTips, true)
-
                 setupIndicator(isRoundTips)
                 setupCanal(isRoundTips)
 
@@ -69,6 +68,31 @@ class ArcCircleProgressBar : View {
             this.isRoundTips = isRoundTips
         }
     }
+
+    private fun TypedArray.setupCanal(isRoundTips: Boolean) {
+        canal.apply {
+            width = getDimension(R.styleable.ArcCircleProgressBar_canalWidth, 10f)
+            startAngle = getFloat(R.styleable.ArcCircleProgressBar_canalStartAngle, 0f)
+            endAngle = getFloat(R.styleable.ArcCircleProgressBar_canalEndAngle, 360f)
+            color = getColor(R.styleable.ArcCircleProgressBar_canalColor, Color.BLUE)
+
+            showGradient(
+                this,
+                isShowRes = R.styleable.ArcCircleProgressBar_canalShowGradient,
+                positionsResId = R.styleable.ArcCircleProgressBar_canalGradientPositions,
+                colorsRes = R.styleable.ArcCircleProgressBar_canalGradientColors,
+                angleIndex = R.styleable.ArcCircleProgressBar_canalGradientAngle,
+                radiusIndex = R.styleable.ArcCircleProgressBar_canalGradientWidth,
+                tileModeIndex = R.styleable.ArcCircleProgressBar_canalGradientTileMode
+            )
+
+            tip.radius = width / 2
+            tip.color = color
+            this.isRoundTips = isRoundTips
+        }
+    }
+
+
 
     private fun TypedArray.showGradient(
         arc: Arc,
@@ -106,6 +130,18 @@ class ArcCircleProgressBar : View {
         return Pair(x, y)
     }
 
+    private fun TypedArray.colors(
+        colorsRes: Int
+    ): IntArray {
+        val colorsRef = getResourceId(colorsRes, 0)
+        if (colorsRef == 0) return intArrayOf(Color.RED, Color.GREEN, Color.BLUE)
+
+        val colors = resources.obtainTypedArray(colorsRef)
+        val intArray = colors.toIntArray()
+        colors.recycle()
+        return intArray
+    }
+
     private fun TypedArray.positions(
         resId: Int
     ): FloatArray? {
@@ -119,17 +155,7 @@ class ArcCircleProgressBar : View {
         return positions
     }
 
-    private fun TypedArray.colors(
-        colorsRes: Int
-    ): IntArray {
-        val colorsRef = getResourceId(colorsRes, 0)
-        if (colorsRef == 0) return intArrayOf(Color.RED, Color.GREEN, Color.BLUE)
 
-        val colors = resources.obtainTypedArray(colorsRef)
-        val intArray = colors.toIntArray()
-        colors.recycle()
-        return intArray
-    }
 
     private fun TypedArray.toIntArray() : IntArray{
         val array = IntArray(length())
@@ -147,28 +173,6 @@ class ArcCircleProgressBar : View {
         return array
     }
 
-    private fun TypedArray.setupCanal(isRoundTips: Boolean) {
-        canal.apply {
-            width = getDimension(R.styleable.ArcCircleProgressBar_canalWidth, 10f)
-            startAngle = getFloat(R.styleable.ArcCircleProgressBar_canalStartAngle, 0f)
-            endAngle = getFloat(R.styleable.ArcCircleProgressBar_canalEndAngle, 360f)
-            color = getColor(R.styleable.ArcCircleProgressBar_canalColor, Color.BLUE)
-
-            showGradient(
-                this,
-                isShowRes = R.styleable.ArcCircleProgressBar_canalShowGradient,
-                positionsResId = R.styleable.ArcCircleProgressBar_canalGradientPositions,
-                colorsRes = R.styleable.ArcCircleProgressBar_canalGradientColors,
-                angleIndex = R.styleable.ArcCircleProgressBar_canalGradientAngle,
-                radiusIndex = R.styleable.ArcCircleProgressBar_canalGradientWidth,
-                tileModeIndex = R.styleable.ArcCircleProgressBar_canalGradientTileMode
-            )
-
-            tip.radius = width / 2
-            tip.color = color
-            this.isRoundTips = isRoundTips
-        }
-    }
 
 
 
