@@ -8,10 +8,16 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <array name="gradient_colors">
+    <array name="indicator_colors">
         <item>#D11212</item>
         <item>#08FF3D</item>
         <item>#0040FF</item>
+    </array>
+
+    <array name="canal_colors">
+        <item>#FFE600</item>
+        <item>#08FFEA</item>
+        <item>#E600FF</item>
     </array>
 
 </resources>

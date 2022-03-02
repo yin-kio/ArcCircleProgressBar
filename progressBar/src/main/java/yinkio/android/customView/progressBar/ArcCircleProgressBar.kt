@@ -74,7 +74,7 @@ class ArcCircleProgressBar : View {
             width = getDimension(R.styleable.ArcCircleProgressBar_canalWidth, 10f)
             startAngle = getFloat(R.styleable.ArcCircleProgressBar_canalStartAngle, 0f)
             endAngle = getFloat(R.styleable.ArcCircleProgressBar_canalEndAngle, 360f)
-            color = getColor(R.styleable.ArcCircleProgressBar_canalColor, Color.BLUE)
+            color = getColor(R.styleable.ArcCircleProgressBar_canalColor, Color.GREEN)
 
             showGradient(
                 this,
@@ -329,7 +329,7 @@ class ArcCircleProgressBar : View {
         internal fun draw(canvas: Canvas, outAngle: Float, view: View, outOffset: Float){
             canvas.apply {
                 val outRadius = min(width - (view.paddingLeft + view.paddingRight),
-                    height - (view.paddingTop + view.paddingBottom)) / 2f - radius  - outOffset
+                    height - (view.paddingTop + view.paddingBottom)) / 2f - radius  - outOffset / 2
                 val radians = (outAngle * PI / 180)
                 val x = (outRadius) * cos(radians) + width / 2 + view.paddingLeft / 2 - view.paddingRight / 2
                 val y = (outRadius) * sin(radians) + height / 2 + view.paddingTop / 2 - view.paddingBottom / 2
