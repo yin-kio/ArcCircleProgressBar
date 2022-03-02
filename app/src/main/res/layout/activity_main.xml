@@ -12,10 +12,16 @@
         app:indicatorEndAngle="360"
         app:indicatorColor="@color/teal_200"
         app:indicatorWidth="20dp"
-        app:indicatorShader="LinearGradient"
+        app:indicatorShowGradient="true"
+        app:indicatorGradientAngle="90"
         app:indicatorGradientWidth="200dp"
-        app:indicatorGradientLinearAngle="90"
         app:indicatorGradientColors="@array/gradient_colors"
-        app:progress="50"/>
+        app:indicatorGradientTileMode="mirror"
+        app:progress="75"
+
+        app:canalGradientColors="@array/gradient_colors"
+        app:canalShowGradient="true"
+
+        />
 
 </FrameLayout>

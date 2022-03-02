@@ -5,10 +5,11 @@
       <map>
         <entry key="..\:/Documents/Projects/ArcCircleProgressBar/app/src/main/res/layout/activity_main.xml" value="0.22685185185185186" />
         <entry key="..\:/Documents/Projects/ArcCircleProgressBar/app/src/main/res/layout/layout.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/prfctn/StudioProjects/ArcCircleProgressBar/app/src/main/res/layout/activity_main.xml" value="0.4" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

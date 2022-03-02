@@ -9,9 +9,9 @@
     <color name="white">#FFFFFFFF</color>
 
     <array name="gradient_colors">
-        <item>@color/purple_200</item>
-        <item>@color/teal_200</item>
-        <item>#FF0000</item>
+        <item>#D11212</item>
+        <item>#08FF3D</item>
+        <item>#0040FF</item>
     </array>
 
 </resources>
