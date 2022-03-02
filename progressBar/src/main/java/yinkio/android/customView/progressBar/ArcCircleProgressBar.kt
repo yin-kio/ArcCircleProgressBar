@@ -191,7 +191,7 @@ class ArcCircleProgressBar : View {
 
         oval.apply {
             val side = min(width - (paddingLeft + paddingRight), height - (paddingTop + paddingBottom))
-            val radius = side / 2 - maxOf(indicator.width, canal.width)
+            val radius = side / 2 - maxOf(indicator.width, canal.width) / 2
             val centerX = width / 2f + paddingLeft / 2 - paddingRight / 2
             val centerY = height / 2f + paddingTop / 2 - paddingBottom / 2
             set(centerX - radius, centerY - radius, centerX + radius, centerY + radius)
@@ -329,7 +329,7 @@ class ArcCircleProgressBar : View {
         internal fun draw(canvas: Canvas, outAngle: Float, view: View, outOffset: Float){
             canvas.apply {
                 val outRadius = min(width - (view.paddingLeft + view.paddingRight),
-                    height - (view.paddingTop + view.paddingBottom)) / 2f - radius * 2 - outOffset
+                    height - (view.paddingTop + view.paddingBottom)) / 2f - radius  - outOffset
                 val radians = (outAngle * PI / 180)
                 val x = (outRadius) * cos(radians) + width / 2 + view.paddingLeft / 2 - view.paddingRight / 2
                 val y = (outRadius) * sin(radians) + height / 2 + view.paddingTop / 2 - view.paddingBottom / 2
