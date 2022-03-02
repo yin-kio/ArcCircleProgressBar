@@ -4,27 +4,6 @@ This is a flexible arc or circle progress bar.
 
 [![](https://jitpack.io/v/xYinKio/ArcCircleProgressBar.svg)](https://jitpack.io/#xYinKio/ArcCircleProgressBar)
 
-## What can it do
-
-- circle progress bar
-- arc progress bar
-- set  width for both of them
-- set colors for both of them
-- set gradients for both of them
-- set start and end angles for both of them
-
-## Examples
-
-![image](https://user-images.githubusercontent.com/48997650/156380567-d2c1e53a-c147-4d6a-b0a7-9e1405302b0a.png)
-![image](https://user-images.githubusercontent.com/48997650/156380737-d1ce01cc-1acd-4a08-9846-64beb818e44f.png)
-![image](https://user-images.githubusercontent.com/48997650/156380853-57d969e1-1240-45fe-af2a-ef250db62b37.png)
-![image](https://user-images.githubusercontent.com/48997650/156380983-aa9d876d-70e0-4cd1-b4b4-5bcbf6699175.png)
-![image](https://user-images.githubusercontent.com/48997650/156381157-85da475f-bdf2-417a-9650-1e39f3144871.png)
-![image](https://user-images.githubusercontent.com/48997650/156381335-411f01bf-3e79-4c06-acda-324a28da83d8.png)
-![image](https://user-images.githubusercontent.com/48997650/156381712-607e09a4-59a6-4e4a-9c76-24be3d1f71e0.png)
-![image](https://user-images.githubusercontent.com/48997650/156381927-787ce7f6-33b4-4dd7-992d-e7d4a5817ff4.png)
-![image](https://user-images.githubusercontent.com/48997650/156382181-85f03ba2-156b-49e1-858e-9c61ca908cfb.png)
-
 
 ## Dependencies
 
@@ -46,6 +25,27 @@ This is a flexible arc or circle progress bar.
 	}
 ```
 
+
+## What can it do
+
+- circle progress bar
+- arc progress bar
+- set  width for both of them
+- set colors for both of them
+- set gradients for both of them
+- set start and end angles for both of them
+
+## Examples
+
+![image](https://user-images.githubusercontent.com/48997650/156380567-d2c1e53a-c147-4d6a-b0a7-9e1405302b0a.png)
+![image](https://user-images.githubusercontent.com/48997650/156380737-d1ce01cc-1acd-4a08-9846-64beb818e44f.png)
+![image](https://user-images.githubusercontent.com/48997650/156380853-57d969e1-1240-45fe-af2a-ef250db62b37.png)
+![image](https://user-images.githubusercontent.com/48997650/156380983-aa9d876d-70e0-4cd1-b4b4-5bcbf6699175.png)
+![image](https://user-images.githubusercontent.com/48997650/156381157-85da475f-bdf2-417a-9650-1e39f3144871.png)
+![image](https://user-images.githubusercontent.com/48997650/156381335-411f01bf-3e79-4c06-acda-324a28da83d8.png)
+![image](https://user-images.githubusercontent.com/48997650/156381712-607e09a4-59a6-4e4a-9c76-24be3d1f71e0.png)
+![image](https://user-images.githubusercontent.com/48997650/156381927-787ce7f6-33b4-4dd7-992d-e7d4a5817ff4.png)
+![image](https://user-images.githubusercontent.com/48997650/156382181-85f03ba2-156b-49e1-858e-9c61ca908cfb.png)
 
 ## How to use
 
