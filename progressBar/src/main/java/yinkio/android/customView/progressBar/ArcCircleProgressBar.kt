@@ -24,6 +24,13 @@ class ArcCircleProgressBar : View {
     val indicator = Arc.Indicator(this)
     val canal = Arc.Canal()
 
+    var progress: Float = 100f
+    set(value) {
+        field = value
+        indicator.progress = value
+        invalidate()
+    }
+
 
 
     private fun init(context: Context?, attrs: AttributeSet?){
