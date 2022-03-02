@@ -2,6 +2,8 @@
 
 This is a flexible arc or circle progress bar.
 
+[![](https://jitpack.io/v/xYinKio/ArcCircleProgressBar.svg)](https://jitpack.io/#xYinKio/ArcCircleProgressBar)
+
 ## What can it do
 
 - circle progress bar
@@ -25,6 +27,25 @@ This is a flexible arc or circle progress bar.
 
 
 ## Dependencies
+
+1. Add repository in buld.gradle of progect or in settings.gradle
+
+```
+    allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+2. Add dependency in build.gradle of module
+```
+    dependencies {
+	        implementation 'com.github.xYinKio:ArcCircleProgressBar:Tag'
+	}
+```
+
 
 ## How to use
 
