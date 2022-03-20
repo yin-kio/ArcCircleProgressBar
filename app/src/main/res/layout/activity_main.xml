@@ -13,9 +13,9 @@
         app:progress="50"
         app:roundTips="true"
 
-        app:indicatorWidth="10dp"
-        app:indicatorStartAngle="-70"
-        app:indicatorEndAngle="250"
+        app:indicatorWidth="20dp"
+        app:indicatorStartAngle="0"
+        app:indicatorEndAngle="270"
         app:indicatorColor="#00FDCB"
         app:indicatorShowGradient="true"
         app:indicatorGradientAngle="90"
@@ -25,11 +25,11 @@
         app:indicatorGradientTileMode="mirror"
 
 
-        app:canalStartAngle="-70"
-        app:canalEndAngle="250"
-        app:canalWidth="30dp"
+        app:canalStartAngle="0"
+        app:canalEndAngle="270"
+        app:canalWidth="10dp"
         app:canalColor="#3D03A6"
-        app:canalShowGradient="true"
+        app:canalShowGradient="false"
         app:canalGradientAngle="30"
         app:canalGradientWidth="100dp"
         app:canalGradientColors="@array/canal_colors"

@@ -11,12 +11,14 @@ import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
 
-class ArcCircleProgressBar : View {
+class ArcCircleProgressBar @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null
+) : View(context, attrs) {
 
-    constructor(context: Context?) : super(context)
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {init(context, attrs)}
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
+    init {
+        init(context, attrs)
+    }
 
 
     private val oval = RectF()
@@ -280,7 +282,7 @@ class ArcCircleProgressBar : View {
                 color = this@Arc.color
                 strokeWidth = width
                 style = Paint.Style.STROKE
-                isAntiAlias = false
+                isAntiAlias = true
             }
         }
 
@@ -329,7 +331,7 @@ class ArcCircleProgressBar : View {
         internal fun updatePaint(){
             paint.apply {
                 color = this@Circle.color
-                isAntiAlias = false
+                isAntiAlias = true
             }
         }
 
