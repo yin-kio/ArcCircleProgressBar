@@ -273,7 +273,7 @@ class ArcCircleProgressBar : View {
 
         val tip = Circle()
 
-        val paint = Paint()
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
         fun updatePaint(){
             paint.apply {
@@ -324,7 +324,7 @@ class ArcCircleProgressBar : View {
     class Circle{
         var color: Int = Color.BLACK
         var radius = 0f
-        val paint = Paint()
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
         internal fun updatePaint(){
             paint.apply {
