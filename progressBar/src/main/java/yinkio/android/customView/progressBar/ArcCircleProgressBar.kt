@@ -17,11 +17,10 @@ class ArcCircleProgressBar : View {
 
 
     constructor(context: Context?) : super(context)
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr){
-        init(context, attrs, defStyleAttr)
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
+        init(context, attrs)
     }
-
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
 
     private val oval = RectF()
@@ -38,11 +37,11 @@ class ArcCircleProgressBar : View {
 
 
 
-    private fun init(context: Context?, attrs: AttributeSet?, defStyleAttrs: Int){
+    private fun init(context: Context?, attrs: AttributeSet?){
         context?.withStyledAttributes(
             attrs,
             R.styleable.ArcCircleProgressBar,
-            defStyleAttrs
+            0
         ){
             val isRoundTips = getBoolean(R.styleable.ArcCircleProgressBar_roundTips, true)
             setupIndicator(isRoundTips)
