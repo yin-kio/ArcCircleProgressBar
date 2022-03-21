@@ -5,21 +5,24 @@ import android.content.res.TypedArray
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.withStyledAttributes
 import yinkio.android.customView.R
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
 
-class ArcCircleProgressBar @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null
-) : View(context, attrs) {
+class ArcCircleProgressBar : View {
 
-    init {
-        init(context, attrs)
+
+
+    constructor(context: Context?) : super(context)
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr){
+        init(context, attrs, defStyleAttr)
     }
 
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
 
     private val oval = RectF()
 
@@ -35,20 +38,16 @@ class ArcCircleProgressBar @JvmOverloads constructor(
 
 
 
-    private fun init(context: Context?, attrs: AttributeSet?){
-        context?.theme?.obtainStyledAttributes(
+    private fun init(context: Context?, attrs: AttributeSet?, defStyleAttrs: Int){
+        context?.withStyledAttributes(
             attrs,
             R.styleable.ArcCircleProgressBar,
-            0, 0
-        )?.apply {
-            try {
-                val isRoundTips = getBoolean(R.styleable.ArcCircleProgressBar_roundTips, true)
-                setupIndicator(isRoundTips)
-                setupCanal(isRoundTips)
+            defStyleAttrs
+        ){
+            val isRoundTips = getBoolean(R.styleable.ArcCircleProgressBar_roundTips, true)
+            setupIndicator(isRoundTips)
+            setupCanal(isRoundTips)
 
-            } finally {
-                recycle()
-            }
         }
     }
 
