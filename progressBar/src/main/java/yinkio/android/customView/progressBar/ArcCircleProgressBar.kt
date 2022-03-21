@@ -282,7 +282,6 @@ class ArcCircleProgressBar @JvmOverloads constructor(
                 color = this@Arc.color
                 strokeWidth = width
                 style = Paint.Style.STROKE
-                isAntiAlias = true
             }
         }
 
@@ -331,7 +330,6 @@ class ArcCircleProgressBar @JvmOverloads constructor(
         internal fun updatePaint(){
             paint.apply {
                 color = this@Circle.color
-                isAntiAlias = true
             }
         }
 
