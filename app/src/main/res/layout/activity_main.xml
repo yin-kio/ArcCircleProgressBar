@@ -10,18 +10,16 @@
         android:layout_height="200dp"
         android:layout_gravity="center"
 
-        app:progress="50"
+        app:progress="90"
         app:roundTips="true"
 
         app:indicatorWidth="20dp"
         app:indicatorStartAngle="0"
         app:indicatorEndAngle="270"
         app:indicatorColor="#00FDCB"
-        app:indicatorShowGradient="true"
+        app:indicatorShowGradient="false"
         app:indicatorGradientAngle="90"
         app:indicatorGradientWidth="100dp"
-        app:indicatorGradientColors="@array/indicator_colors"
-        app:indicatorGradientPositions="@array/indicator_positions"
         app:indicatorGradientTileMode="mirror"
 
 
@@ -32,8 +30,6 @@
         app:canalShowGradient="false"
         app:canalGradientAngle="30"
         app:canalGradientWidth="100dp"
-        app:canalGradientColors="@array/canal_colors"
-        app:canalGradientPositions="@array/canal_positions"
         app:canalGradientTileMode="mirror" />
 
 </FrameLayout>
