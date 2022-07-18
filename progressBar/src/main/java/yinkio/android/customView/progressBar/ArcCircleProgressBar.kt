@@ -16,6 +16,8 @@ import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
 
+private const val BLUR_RADIUS = 25f
+
 class ArcCircleProgressBar : View {
 
 
@@ -76,10 +78,10 @@ class ArcCircleProgressBar : View {
                     )
             }
 
-            val hasShadow = getBoolean(R.styleable.ArcCircleProgressBar_indicatorDrawShadow, false)
+            val hasShadow = getBoolean(R.styleable.ArcCircleProgressBar_indicatorHasShadow, false)
             if (hasShadow){
-                indicator.hasShadow = hasShadow
-                indicator.shadowPaint.apply {
+                this.hasShadow = hasShadow
+                shadowPaint.apply {
                     shader = gradient(
                         positionsResId = R.styleable.ArcCircleProgressBar_indicatorShadowGradientPositions,
                         colorsRes = R.styleable.ArcCircleProgressBar_indicatorShadowColors,
@@ -88,6 +90,11 @@ class ArcCircleProgressBar : View {
                         tileModeIndex = R.styleable.ArcCircleProgressBar_indicatorShadowGradientTileMode
                     )
                 }
+
+                shadowBlurRadius = getFloat(R.styleable.ArcCircleProgressBar_indicatorShadowBlurValue, 25f)
+
+
+                setupShadowPaint()
             }
 
 
@@ -116,10 +123,10 @@ class ArcCircleProgressBar : View {
                 )
             }
 
-            val hasShadow = getBoolean(R.styleable.ArcCircleProgressBar_canalDrawShadow, false)
+            val hasShadow = getBoolean(R.styleable.ArcCircleProgressBar_canalHasShadow, false)
             if (hasShadow){
-                canal.hasShadow = hasShadow
-                canal.shadowPaint.apply {
+                this.hasShadow = hasShadow
+                shadowPaint.apply {
                     shader = gradient(
                         positionsResId = R.styleable.ArcCircleProgressBar_canalShadowGradientPositions,
                         colorsRes = R.styleable.ArcCircleProgressBar_canalShadowColors,
@@ -128,11 +135,23 @@ class ArcCircleProgressBar : View {
                         tileModeIndex = R.styleable.ArcCircleProgressBar_canalShadowGradientTileMode
                     )
                 }
+
+                shadowBlurRadius = getFloat(R.styleable.ArcCircleProgressBar_indicatorShadowBlurValue, 25f)
+
+                setupShadowPaint()
             }
 
 
             setupCap(isRoundCaps)
             this.isRoundCaps = isRoundCaps
+        }
+    }
+
+    private fun Arc.setupShadowPaint() {
+        shadowPaint.apply {
+            style = Paint.Style.STROKE
+            strokeWidth = width
+            strokeCap = Paint.Cap.ROUND
         }
     }
 
@@ -243,29 +262,46 @@ class ArcCircleProgressBar : View {
             .toFloat()
         val radius = side / 2 - maxOf(indicator.width, canal.width) / 2
 
-        oval.apply {
-            val newRadius = radius * 0.7f
-            set(centerX + 10f - newRadius,
-                centerY + 10f - newRadius,
-                centerX + 10f + newRadius,
-                centerY + 10f + newRadius)
-        }
 
-        val output = shadowBitmap{
-            if (canal.hasShadow) drawCanal(it, canal.shadowPaint)
-            if (indicator.hasShadow) drawIndicator(it, indicator.shadowPaint)
-        }
 
-        oval.apply {
-            val newRadius = radius * 0.7f
-            set(centerX - newRadius,
-                centerY - newRadius,
-                centerX + newRadius,
-                centerY + newRadius)
-        }
+
+
+
+
+
 
         canvas.apply {
-            drawBitmap(output, 0f, 0f, null)
+
+            oval.apply {
+                val newRadius = radius * 0.7f
+                set(centerX + 10f - newRadius,
+                    centerY + 10f - newRadius,
+                    centerX + 10f + newRadius,
+                    centerY + 10f + newRadius)
+            }
+
+            if (indicator.hasShadow){
+                val indicatorShadow = shadowBitmap(blurRadius = indicator.shadowBlurRadius){
+                    drawIndicator(it, indicator.shadowPaint)
+                }
+                drawBitmap(indicatorShadow, 0f, 0f, null)
+            }
+
+            if (canal.hasShadow){
+                val canalShadow = shadowBitmap(blurRadius = canal.shadowBlurRadius) {
+                    drawCanal(it, canal.shadowPaint)
+                }
+                drawBitmap(canalShadow, 0f, 0f, null)
+            }
+
+            oval.apply {
+                val newRadius = radius * 0.7f
+                set(centerX - newRadius,
+                    centerY - newRadius,
+                    centerX + newRadius,
+                    centerY + newRadius)
+            }
+
             drawCanal(this, canal.paint)
             drawIndicator(this, indicator.paint)
         }
@@ -273,6 +309,7 @@ class ArcCircleProgressBar : View {
     }
 
     private fun shadowBitmap(
+        blurRadius: Float = 25f,
         draw: (Canvas) -> Unit
     ): Bitmap {
         val shadowBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
@@ -286,7 +323,7 @@ class ArcCircleProgressBar : View {
         val inAlloc = Allocation.createFromBitmap(rs, shadowBitmap)
         val outAlloc = Allocation.createFromBitmap(rs, output)
 
-        blurScript.setRadius(25f)
+        blurScript.setRadius(blurRadius)
         blurScript.setInput(inAlloc)
         blurScript.forEach(outAlloc)
         outAlloc.copyTo(output)
@@ -322,6 +359,7 @@ class ArcCircleProgressBar : View {
         open var endAngle: Float = 360f
         open var isRoundCaps = true
         open var hasShadow = false
+        open var shadowBlurRadius = 0f
         open val shadowPaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
 

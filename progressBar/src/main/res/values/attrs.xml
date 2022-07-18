@@ -21,7 +21,7 @@
             <enum name="decal" value="3"/>
         </attr>
 
-        <attr name="indicatorDrawShadow" format="boolean"/>
+        <attr name="indicatorHasShadow" format="boolean"/>
         <attr name="indicatorShadowDrawGradient" format="boolean"/>
         <attr name="indicatorShadowGradientAngle" format="float"/>
         <attr name="indicatorShadowGradientWidth" format="dimension"/>
@@ -53,7 +53,7 @@
             <enum name="decal" value="3"/>
         </attr>
 
-        <attr name="canalDrawShadow" format="boolean"/>
+        <attr name="canalHasShadow" format="boolean"/>
         <attr name="canalShadowDrawGradient" format="boolean"/>
         <attr name="canalShadowGradientAngle" format="float"/>
         <attr name="canalShadowGradientWidth" format="dimension"/>
