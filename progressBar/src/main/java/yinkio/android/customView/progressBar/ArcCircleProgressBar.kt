@@ -79,7 +79,7 @@ class ArcCircleProgressBar : View {
             color = getColor(R.styleable.ArcCircleProgressBar_indicatorColor, Color.BLUE)
 
 
-            val hasGradient = getBoolean(R.styleable.ArcCircleProgressBar_indicatorShowGradient, false)
+            val hasGradient = getBoolean(R.styleable.ArcCircleProgressBar_indicatorDrawGradient, false)
             if (hasGradient){
                 indicator.paint.shader =
                     gradient(
@@ -95,18 +95,23 @@ class ArcCircleProgressBar : View {
             if (hasShadow){
                 this.hasShadow = hasShadow
                 shadowPaint.apply {
-                    shader = gradient(
-                        positionsResId = R.styleable.ArcCircleProgressBar_indicatorShadowGradientPositions,
-                        colorsRes = R.styleable.ArcCircleProgressBar_indicatorShadowGradientColors,
-                        angleIndex = R.styleable.ArcCircleProgressBar_indicatorShadowGradientAngle,
-                        radiusIndex = R.styleable.ArcCircleProgressBar_indicatorShadowGradientWidth,
-                        tileModeIndex = R.styleable.ArcCircleProgressBar_indicatorShadowGradientTileMode
-                    )
-                }
 
+                    val hasShadowGradient = getBoolean(R.styleable.ArcCircleProgressBar_indicatorShadowDrawGradient, false)
+
+                    if (hasShadowGradient){
+                        shader = gradient(
+                            positionsResId = R.styleable.ArcCircleProgressBar_indicatorShadowGradientPositions,
+                            colorsRes = R.styleable.ArcCircleProgressBar_indicatorShadowGradientColors,
+                            angleIndex = R.styleable.ArcCircleProgressBar_indicatorShadowGradientAngle,
+                            radiusIndex = R.styleable.ArcCircleProgressBar_indicatorShadowGradientWidth,
+                            tileModeIndex = R.styleable.ArcCircleProgressBar_indicatorShadowGradientTileMode
+                        )
+                    }
+
+                    color = getColor(R.styleable.ArcCircleProgressBar_indicatorShadowColor, Color.GRAY)
+                }
                 shadowBlurRadius = getFloat(R.styleable.ArcCircleProgressBar_indicatorShadowBlurValue, 25f)
 
-                shadowPaint.color = Color.BLUE
 
 
                 setupShadowPaint()
@@ -127,7 +132,7 @@ class ArcCircleProgressBar : View {
             endAngle = getFloat(R.styleable.ArcCircleProgressBar_canalEndAngle, 360f)
             color = getColor(R.styleable.ArcCircleProgressBar_canalColor, Color.GREEN)
 
-            val hasGradient = getBoolean(R.styleable.ArcCircleProgressBar_canalShowGradient, false)
+            val hasGradient = getBoolean(R.styleable.ArcCircleProgressBar_canalDrawGradient, false)
             if (hasGradient){
                 canal.paint.shader = gradient(
                     positionsResId = R.styleable.ArcCircleProgressBar_canalGradientPositions,
@@ -142,13 +147,19 @@ class ArcCircleProgressBar : View {
             if (hasShadow){
                 this.hasShadow = hasShadow
                 shadowPaint.apply {
-                    shader = gradient(
-                        positionsResId = R.styleable.ArcCircleProgressBar_canalShadowGradientPositions,
-                        colorsRes = R.styleable.ArcCircleProgressBar_canalShadowGradientColors,
-                        angleIndex = R.styleable.ArcCircleProgressBar_canalShadowGradientAngle,
-                        radiusIndex = R.styleable.ArcCircleProgressBar_canalShadowGradientWidth,
-                        tileModeIndex = R.styleable.ArcCircleProgressBar_canalShadowGradientTileMode
-                    )
+
+                    val hasShadowGradient = getBoolean(R.styleable.ArcCircleProgressBar_canalShadowDrawGradient, false)
+                    if (hasShadowGradient){
+                        shader = gradient(
+                            positionsResId = R.styleable.ArcCircleProgressBar_canalShadowGradientPositions,
+                            colorsRes = R.styleable.ArcCircleProgressBar_canalShadowGradientColors,
+                            angleIndex = R.styleable.ArcCircleProgressBar_canalShadowGradientAngle,
+                            radiusIndex = R.styleable.ArcCircleProgressBar_canalShadowGradientWidth,
+                            tileModeIndex = R.styleable.ArcCircleProgressBar_canalShadowGradientTileMode
+                        )
+                    }
+
+                    color = getColor(R.styleable.ArcCircleProgressBar_canalShadowColor, Color.GRAY)
                 }
 
                 shadowBlurRadius = getFloat(R.styleable.ArcCircleProgressBar_indicatorShadowBlurValue, 25f)
@@ -295,18 +306,18 @@ class ArcCircleProgressBar : View {
                     centerY + shadowBottom + newRadius)
             }
 
-            if (indicator.hasShadow){
-                val indicatorShadow = shadowBitmap(blurRadius = indicator.shadowBlurRadius){
-                    drawIndicator(it, indicator.shadowPaint)
-                }
-                drawBitmap(indicatorShadow, 0f, 0f, null)
-            }
-
             if (canal.hasShadow){
                 val canalShadow = shadowBitmap(blurRadius = canal.shadowBlurRadius) {
                     drawCanal(it, canal.shadowPaint)
                 }
                 drawBitmap(canalShadow, 0f, 0f, null)
+            }
+
+            if (indicator.hasShadow){
+                val indicatorShadow = shadowBitmap(blurRadius = indicator.shadowBlurRadius){
+                    drawIndicator(it, indicator.shadowPaint)
+                }
+                drawBitmap(indicatorShadow, 0f, 0f, null)
             }
 
             oval.apply {

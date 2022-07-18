@@ -14,16 +14,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val progressBar: ArcCircleProgressBar = findViewById(R.id.progressBar)
-        progressBar.progress = 90f
+//        progressBar.progress = 90f
 
         CoroutineScope(Dispatchers.IO).launch{
 
-//            while (true){
-//                delay(200)
-//                withContext(Dispatchers.Main){
-//                    progressBar.progress -= 1f
-//                }
-//            }
+            while (true){
+                delay(200)
+                withContext(Dispatchers.Main){
+                    progressBar.progress -= 1f
+                }
+            }
 
 
         }

@@ -11,29 +11,42 @@
         android:layout_height="200dp"
         android:layout_gravity="center"
         android:elevation="8dp"
+        android:background="@color/black"
 
-        app:progress="90"
+        app:shadowLeft="10"
+        app:shadowTop="10"
+        app:shadowBottom="10"
+        app:shadowRight="10"
+
+        app:progress="50"
         app:roundTips="true"
 
         app:indicatorWidth="20dp"
         app:indicatorStartAngle="0"
         app:indicatorEndAngle="270"
         app:indicatorColor="#FDDB00"
-        app:indicatorShowGradient="true"
+        app:indicatorDrawGradient="false"
         app:indicatorGradientAngle="90"
         app:indicatorGradientWidth="100dp"
         app:indicatorGradientTileMode="mirror"
         app:indicatorGradientColors="@array/indicator_colors"
-        app:indicatorDrawShadow="false"
+        app:indicatorShadowBlurValue="25"
+        app:indicatorShadowDrawGradient="false"
+        app:indicatorHasShadow="true"
+        app:indicatorShadowColor="@color/teal_200"
 
 
         app:canalStartAngle="0"
         app:canalEndAngle="270"
         app:canalWidth="10dp"
         app:canalColor="#3D9110"
-        app:canalShowGradient="false"
+        app:canalDrawGradient="false"
         app:canalGradientAngle="30"
         app:canalGradientWidth="100dp"
-        app:canalGradientTileMode="mirror" />
+        app:canalGradientTileMode="mirror"
+        app:canalShadowBlurValue="25"
+        app:canalShadowDrawGradient="false"
+        app:canalHasShadow="true"
+        app:canalShadowColor="@color/purple_500"/>
 
 </FrameLayout>

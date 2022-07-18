@@ -20,4 +20,10 @@
         <item>#E600FF</item>
     </array>
 
+    <array name="progress_shadow_colors">
+        <item>#0037FF</item>
+        <item>#00FF00</item>
+    </array>
+
+
 </resources>
