@@ -2,13 +2,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
 
     <yinkio.android.customView.progressBar.ArcCircleProgressBar
         android:id="@+id/progressBar"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_gravity="center"
+        android:elevation="8dp"
 
         app:progress="90"
         app:roundTips="true"
@@ -16,17 +18,19 @@
         app:indicatorWidth="20dp"
         app:indicatorStartAngle="0"
         app:indicatorEndAngle="270"
-        app:indicatorColor="#00FDCB"
-        app:indicatorShowGradient="false"
+        app:indicatorColor="#FDDB00"
+        app:indicatorShowGradient="true"
         app:indicatorGradientAngle="90"
         app:indicatorGradientWidth="100dp"
         app:indicatorGradientTileMode="mirror"
+        app:indicatorGradientColors="@array/indicator_colors"
+        app:indicatorDrawShadow="false"
 
 
         app:canalStartAngle="0"
         app:canalEndAngle="270"
         app:canalWidth="10dp"
-        app:canalColor="#3D03A6"
+        app:canalColor="#3D9110"
         app:canalShowGradient="false"
         app:canalGradientAngle="30"
         app:canalGradientWidth="100dp"

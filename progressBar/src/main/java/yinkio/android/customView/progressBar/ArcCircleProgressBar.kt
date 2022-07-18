@@ -3,6 +3,10 @@ package yinkio.android.customView.progressBar
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.*
+import android.renderscript.Allocation
+import android.renderscript.Element
+import android.renderscript.RenderScript
+import android.renderscript.ScriptIntrinsicBlur
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.withStyledAttributes
@@ -51,7 +55,7 @@ class ArcCircleProgressBar : View {
     }
 
 
-    private fun TypedArray.setupIndicator(isRoundTips: Boolean) {
+    private fun TypedArray.setupIndicator(isRoundCaps: Boolean) {
         indicator.apply {
             progress = getFloat(R.styleable.ArcCircleProgressBar_progress, 0f)
             width = getDimension(R.styleable.ArcCircleProgressBar_indicatorWidth, 10f)
@@ -59,70 +63,88 @@ class ArcCircleProgressBar : View {
             endAngle = getFloat(R.styleable.ArcCircleProgressBar_indicatorEndAngle, 360f)
             color = getColor(R.styleable.ArcCircleProgressBar_indicatorColor, Color.BLUE)
 
-            showGradient(
-                arc = this,
-                isShowRes = R.styleable.ArcCircleProgressBar_indicatorShowGradient,
-                positionsResId = R.styleable.ArcCircleProgressBar_indicatorGradientPositions,
-                colorsRes = R.styleable.ArcCircleProgressBar_indicatorGradientColors,
-                angleIndex = R.styleable.ArcCircleProgressBar_indicatorGradientAngle,
-                radiusIndex = R.styleable.ArcCircleProgressBar_indicatorGradientWidth,
-                tileModeIndex = R.styleable.ArcCircleProgressBar_indicatorGradientTileMode
-            )
+
+            val hasGradient = getBoolean(R.styleable.ArcCircleProgressBar_indicatorShowGradient, false)
+            if (hasGradient){
+                indicator.paint.shader =
+                    gradient(
+                        positionsResId = R.styleable.ArcCircleProgressBar_indicatorGradientPositions,
+                        colorsRes = R.styleable.ArcCircleProgressBar_indicatorGradientColors,
+                        angleIndex = R.styleable.ArcCircleProgressBar_indicatorGradientAngle,
+                        radiusIndex = R.styleable.ArcCircleProgressBar_indicatorGradientWidth,
+                        tileModeIndex = R.styleable.ArcCircleProgressBar_indicatorGradientTileMode
+                    )
+            }
+
+            val hasShadow = getBoolean(R.styleable.ArcCircleProgressBar_indicatorDrawShadow, false)
+            if (hasShadow){
+                indicator.hasShadow = hasShadow
+                indicator.shadowPaint.apply {
+                    shader = gradient(
+                        positionsResId = R.styleable.ArcCircleProgressBar_indicatorShadowGradientPositions,
+                        colorsRes = R.styleable.ArcCircleProgressBar_indicatorShadowColors,
+                        angleIndex = R.styleable.ArcCircleProgressBar_indicatorShadowGradientAngle,
+                        radiusIndex = R.styleable.ArcCircleProgressBar_indicatorShadowGradientWidth,
+                        tileModeIndex = R.styleable.ArcCircleProgressBar_indicatorShadowGradientTileMode
+                    )
+                }
+            }
 
 
-            tip.color = color
-            tip.radius = width / 2
-            this.isRoundTips = isRoundTips
+            paint.strokeCap = cap(isRoundCaps)
+            this.isRoundCaps = isRoundCaps
         }
     }
 
-    private fun TypedArray.setupCanal(isRoundTips: Boolean) {
+
+
+    private fun TypedArray.setupCanal(isRoundCaps: Boolean) {
         canal.apply {
             width = getDimension(R.styleable.ArcCircleProgressBar_canalWidth, 10f)
             startAngle = getFloat(R.styleable.ArcCircleProgressBar_canalStartAngle, 0f)
             endAngle = getFloat(R.styleable.ArcCircleProgressBar_canalEndAngle, 360f)
             color = getColor(R.styleable.ArcCircleProgressBar_canalColor, Color.GREEN)
 
-            showGradient(
-                this,
-                isShowRes = R.styleable.ArcCircleProgressBar_canalShowGradient,
-                positionsResId = R.styleable.ArcCircleProgressBar_canalGradientPositions,
-                colorsRes = R.styleable.ArcCircleProgressBar_canalGradientColors,
-                angleIndex = R.styleable.ArcCircleProgressBar_canalGradientAngle,
-                radiusIndex = R.styleable.ArcCircleProgressBar_canalGradientWidth,
-                tileModeIndex = R.styleable.ArcCircleProgressBar_canalGradientTileMode
-            )
+            val hasGradient = getBoolean(R.styleable.ArcCircleProgressBar_canalShowGradient, false)
+            if (hasGradient){
+                canal.paint.shader = gradient(
+                    positionsResId = R.styleable.ArcCircleProgressBar_canalGradientPositions,
+                    colorsRes = R.styleable.ArcCircleProgressBar_canalGradientColors,
+                    angleIndex = R.styleable.ArcCircleProgressBar_canalGradientAngle,
+                    radiusIndex = R.styleable.ArcCircleProgressBar_canalGradientWidth,
+                    tileModeIndex = R.styleable.ArcCircleProgressBar_canalGradientTileMode
+                )
+            }
 
-            tip.radius = width / 2
-            tip.color = color
-            this.isRoundTips = isRoundTips
+
+            paint.strokeCap = cap(isRoundCaps)
+            this.isRoundCaps = isRoundCaps
         }
     }
 
+    private fun cap(isRoundTips: Boolean) = if (isRoundTips) {
+        Paint.Cap.ROUND
+    } else {
+        Paint.Cap.BUTT
+    }
 
 
-    private fun TypedArray.showGradient(
-        arc: Arc,
-        isShowRes: Int,
+    private fun TypedArray.gradient(
         positionsResId: Int,
         colorsRes: Int,
         angleIndex: Int,
         radiusIndex: Int,
         tileModeIndex: Int = 2
-    ) {
-        if (getBoolean(isShowRes, false)) {
-            val (x, y) = chords(angleIndex, radiusIndex)
-            val shader = LinearGradient(
-                0f, 0f, x, y,
-                colors(colorsRes),
-                positions(positionsResId),
-                Shader.TileMode.values()[
-                        getInt(tileModeIndex, 2)
-                ]
-            )
-            arc.paint.shader = shader
-            arc.tip.paint.shader = shader
-        }
+    ): Shader {
+        val (x, y) = chords(angleIndex, radiusIndex)
+        return LinearGradient(
+            0f, 0f, x, y,
+            colors(colorsRes),
+            positions(positionsResId),
+            Shader.TileMode.values()[
+                    getInt(tileModeIndex, 2)
+            ]
+        )
     }
 
     private fun TypedArray.chords(
@@ -187,8 +209,6 @@ class ArcCircleProgressBar : View {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-
-
         setMeasuredDimension(widthMeasureSpec + (paddingLeft + paddingRight),
             heightMeasureSpec + (paddingTop + paddingBottom))
     }
@@ -196,71 +216,81 @@ class ArcCircleProgressBar : View {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
+        val centerX = width / 2f + paddingLeft / 2 - paddingRight / 2
+        val centerY = height / 2f + paddingTop / 2 - paddingBottom / 2
+        val side = min(width - (paddingLeft + paddingRight), height - (paddingTop + paddingBottom))
+            .toFloat()
+        val radius = side / 2 - maxOf(indicator.width, canal.width) / 2
+
         oval.apply {
-            val side = min(width - (paddingLeft + paddingRight), height - (paddingTop + paddingBottom))
-                .toFloat()
-            val radius = side / 2 - maxOf(indicator.width, canal.width) / 2
-            val centerX = width / 2f + paddingLeft / 2 - paddingRight / 2
-            val centerY = height / 2f + paddingTop / 2 - paddingBottom / 2
-            set(centerX - radius, centerY - radius, centerX + radius, centerY + radius)
+            val newRadius = radius * 0.7f
+            set(centerX + 10f - newRadius,
+                centerY + 10f - newRadius,
+                centerX + 10f + newRadius,
+                centerY + 10f + newRadius)
+        }
+
+        val output = shadowBitmap{
+            if (canal.hasShadow) drawCanal(it, canal.shadowPaint)
+            if (indicator.hasShadow) drawIndicator(it, indicator.shadowPaint)
+        }
+
+        oval.apply {
+            val newRadius = radius * 0.7f
+            set(centerX - newRadius,
+                centerY - newRadius,
+                centerX + newRadius,
+                centerY + newRadius)
         }
 
         canvas.apply {
-
-            val maxArcWidth = maxOf(canal.width, indicator.width)
-            val minArcWidth = minOf(canal.width, indicator.width)
-            val indentOffsetKoef = 1 - minArcWidth / maxArcWidth
-
-            drawCanal(maxArcWidth, indentOffsetKoef, canvas)
-            drawIndicator(maxArcWidth, indentOffsetKoef, canvas)
+            drawBitmap(output, 0f, 0f, null)
+            drawCanal(this, canal.paint)
+            drawIndicator(this, indicator.paint)
         }
+
+    }
+
+    private fun shadowBitmap(
+        draw: (Canvas) -> Unit
+    ): Bitmap {
+        val shadowBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+
+        val shadowCanvas = Canvas(shadowBitmap)
+        draw(shadowCanvas)
+
+        val output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val rs = RenderScript.create(context)
+        val blurScript = ScriptIntrinsicBlur.create(rs, Element.RGBA_8888(rs))
+        val inAlloc = Allocation.createFromBitmap(rs, shadowBitmap)
+        val outAlloc = Allocation.createFromBitmap(rs, output)
+
+        blurScript.setRadius(25f)
+        blurScript.setInput(inAlloc)
+        blurScript.forEach(outAlloc)
+        outAlloc.copyTo(output)
+        rs.destroy()
+        return output
     }
 
     private fun drawCanal(
-        maxArcWidth: Float,
-        indentOffsetKoef: Float,
-        canvas: Canvas
+        canvas: Canvas,
+        paint: Paint
     ) {
         canal.apply {
-
-            if (isRoundTips) {
-                val outOffset =
-                    if (canal.width < indicator.width) maxArcWidth * indentOffsetKoef else 0f
-
-                tip.updatePaint()
-                tip.draw(canvas, startAngle, this@ArcCircleProgressBar, outOffset)
-                tip.draw(canvas, endAngle, this@ArcCircleProgressBar, outOffset)
-
-
-            }
-
-            updatePaint()
-            draw(canvas, oval, this@ArcCircleProgressBar)
+            updatePaints()
+            draw(canvas, oval, this@ArcCircleProgressBar, paint)
         }
     }
 
     private fun drawIndicator(
-        maxArcWidth: Float,
-        indentOffsetKoef: Float,
-        canvas: Canvas
+        canvas: Canvas,
+        paint: Paint
     ) {
         indicator.apply {
 
-            if (isRoundTips) {
-                val outOffset =
-                    if (indicator.width < canal.width) maxArcWidth * indentOffsetKoef else 0f
-                tip.updatePaint()
-                tip.draw(canvas, startAngle, this@ArcCircleProgressBar, outOffset)
-                tip.draw(
-                    canvas,
-                    progressAngle + startAngle,
-                    this@ArcCircleProgressBar,
-                    outOffset
-                )
-            }
-
-            updatePaint()
-            draw(canvas, oval, this@ArcCircleProgressBar)
+            updatePaints()
+            draw(canvas, oval, this@ArcCircleProgressBar, paint)
         }
     }
 
@@ -269,14 +299,14 @@ class ArcCircleProgressBar : View {
         open var color: Int = Color.BLACK
         open var startAngle: Float = 0f
         open var endAngle: Float = 360f
-        open var isRoundTips = true
+        open var isRoundCaps = true
+        open var hasShadow = false
+        open val shadowPaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
-
-        val tip = Circle()
 
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
-        fun updatePaint(){
+        fun updatePaints(){
             paint.apply {
                 color = this@Arc.color
                 strokeWidth = width
@@ -284,7 +314,7 @@ class ArcCircleProgressBar : View {
             }
         }
 
-        open fun draw(canvas: Canvas, oval: RectF, view: View){
+        open fun draw(canvas: Canvas, oval: RectF, view: View, paint: Paint){
             canvas.apply {
                 val end = if (startAngle < 0) startAngle * -1 + endAngle else endAngle
                 drawArc(oval, startAngle, end, false, paint)
@@ -309,7 +339,7 @@ class ArcCircleProgressBar : View {
                     return (startAngle * -1 + endAngle) * koef
                 }
 
-            override fun draw(canvas: Canvas, oval: RectF, view: View){
+            override fun draw(canvas: Canvas, oval: RectF, view: View, paint: Paint){
                 canvas.apply {
                     drawArc(oval, startAngle, progressAngle, false, paint)
                 }
@@ -318,37 +348,6 @@ class ArcCircleProgressBar : View {
 
         class Canal : Arc(){
             override var color: Int = Color.GRAY
-        }
-    }
-
-    class Circle{
-        var color: Int = Color.BLACK
-        var radius = 0f
-        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-
-        internal fun updatePaint(){
-            paint.apply {
-                color = this@Circle.color
-            }
-        }
-
-        internal fun draw(canvas: Canvas, outAngle: Float, view: View, outOffset: Float){
-            canvas.apply {
-                val width = width.toDouble()
-                val height = height.toDouble()
-                val paddingLeft = view.paddingLeft.toFloat()
-                val paddingRight = view.paddingRight.toFloat()
-                val paddingBottom = view.paddingBottom.toFloat()
-                val paddingTop = view.paddingTop.toFloat()
-
-                val outRadius = min(width - (paddingLeft + paddingRight),
-                    height - (paddingTop + paddingBottom)) / 2f - radius  - outOffset / 2
-                val radians = (outAngle * PI / 180)
-                val x = (outRadius) * cos(radians) + width / 2 + paddingLeft / 2 - paddingRight / 2
-                val y = (outRadius) * sin(radians) + height / 2 + paddingTop / 2 - paddingBottom / 2
-
-                drawCircle(x.toFloat(), y.toFloat(), radius, paint)
-            }
         }
     }
 
