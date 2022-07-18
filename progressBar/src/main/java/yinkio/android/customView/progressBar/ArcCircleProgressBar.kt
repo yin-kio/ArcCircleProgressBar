@@ -91,7 +91,7 @@ class ArcCircleProgressBar : View {
             }
 
 
-            paint.strokeCap = cap(isRoundCaps)
+            setupCap(isRoundCaps)
             this.isRoundCaps = isRoundCaps
         }
     }
@@ -131,9 +131,16 @@ class ArcCircleProgressBar : View {
             }
 
 
-            paint.strokeCap = cap(isRoundCaps)
+            setupCap(isRoundCaps)
             this.isRoundCaps = isRoundCaps
         }
+    }
+
+    private fun Arc.setupCap(
+        isRoundCaps: Boolean
+    ) {
+        paint.strokeCap = cap(isRoundCaps)
+        shadowPaint.strokeCap = cap(isRoundCaps)
     }
 
     private fun cap(isRoundTips: Boolean) = if (isRoundTips) {
