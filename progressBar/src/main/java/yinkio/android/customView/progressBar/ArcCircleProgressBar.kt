@@ -10,6 +10,7 @@ import android.renderscript.ScriptIntrinsicBlur
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.withStyledAttributes
+import kotlinx.coroutines.*
 import yinkio.android.customView.R
 import kotlin.math.PI
 import kotlin.math.cos
@@ -46,7 +47,7 @@ class ArcCircleProgressBar : View {
     var shadowRight: Float = 10f
     var shadowBottom: Float = 10f
 
-
+    private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
 
     private fun init(context: Context?, attrs: AttributeSet?){
@@ -68,6 +69,8 @@ class ArcCircleProgressBar : View {
 
         }
     }
+
+
 
 
     private fun TypedArray.setupIndicator(isRoundCaps: Boolean) {
@@ -279,6 +282,12 @@ class ArcCircleProgressBar : View {
             heightMeasureSpec + (paddingTop + paddingBottom))
     }
 
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        coroutineScope.cancel()
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
@@ -287,12 +296,6 @@ class ArcCircleProgressBar : View {
         val side = min(width - (paddingLeft + paddingRight), height - (paddingTop + paddingBottom))
             .toFloat()
         val radius = side / 2 - maxOf(indicator.width, canal.width) / 2
-
-
-
-
-
-
 
 
 
@@ -306,19 +309,31 @@ class ArcCircleProgressBar : View {
                     centerY + shadowBottom + newRadius)
             }
 
-            if (canal.hasShadow){
-                val canalShadow = shadowBitmap(blurRadius = canal.shadowBlurRadius) {
-                    drawCanal(it, canal.shadowPaint)
-                }
-                drawBitmap(canalShadow, 0f, 0f, null)
+            runBlocking {
+                val canalShadow = if (canal.hasShadow){
+                    coroutineScope.async {
+                        shadowBitmap(blurRadius = canal.shadowBlurRadius) {
+                            drawCanal(it, canal.shadowPaint)
+                        }
+                    }
+                } else null
+
+                val indicatorShadow = if (indicator.hasShadow){
+                    coroutineScope.async {
+                        shadowBitmap(blurRadius = indicator.shadowBlurRadius){
+                            drawIndicator(it, indicator.shadowPaint)
+                        }
+                    }
+                } else null
+
+                canalShadow?.let { drawBitmap(it.await(), 0f, 0f, null) }
+                indicatorShadow?.let { drawBitmap(it.await(), 0f, 0f, null) }
             }
 
-            if (indicator.hasShadow){
-                val indicatorShadow = shadowBitmap(blurRadius = indicator.shadowBlurRadius){
-                    drawIndicator(it, indicator.shadowPaint)
-                }
-                drawBitmap(indicatorShadow, 0f, 0f, null)
-            }
+
+
+
+
 
             oval.apply {
                 val newRadius = radius * progressScale
