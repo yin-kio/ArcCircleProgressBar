@@ -116,6 +116,20 @@ class ArcCircleProgressBar : View {
                 )
             }
 
+            val hasShadow = getBoolean(R.styleable.ArcCircleProgressBar_canalDrawShadow, false)
+            if (hasShadow){
+                canal.hasShadow = hasShadow
+                canal.shadowPaint.apply {
+                    shader = gradient(
+                        positionsResId = R.styleable.ArcCircleProgressBar_canalShadowGradientPositions,
+                        colorsRes = R.styleable.ArcCircleProgressBar_canalShadowColors,
+                        angleIndex = R.styleable.ArcCircleProgressBar_canalShadowGradientAngle,
+                        radiusIndex = R.styleable.ArcCircleProgressBar_canalShadowGradientWidth,
+                        tileModeIndex = R.styleable.ArcCircleProgressBar_canalShadowGradientTileMode
+                    )
+                }
+            }
+
 
             paint.strokeCap = cap(isRoundCaps)
             this.isRoundCaps = isRoundCaps
