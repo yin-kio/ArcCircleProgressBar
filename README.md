@@ -53,33 +53,36 @@ This is a flexible arc or circle progress bar.
 
 #### List of attributes:
 
-```
-    app:progress="50"
-    app:roundTips="true"
-
-    app:indicatorWidth="20dp"
-    app:indicatorStartAngle="0"
-    app:indicatorEndAngle="270"
-    app:indicatorColor="#00FDCB"
-    app:indicatorShowGradient="true"
-    app:indicatorGradientAngle="90"
-    app:indicatorGradientWidth="100dp"
-    app:indicatorGradientColors="@array/indicator_colors" // use color array in xml
-    app:indicatorGradientPositions="@array/indicator_positions" // use typed array in xml
-    app:indicatorGradientTileMode="mirror"
+Past indicator or canal instead of [prefix]
 
 
-    app:canalStartAngle="0"
-    app:canalEndAngle="270"
-    app:canalWidth="10dp"
-    app:canalColor="#3D03A6"
-    app:canalShowGradient="false"
-    app:canalGradientAngle="30"
-    app:canalGradientWidth="100dp"
-    app:canalGradientColors="@array/canal_colors"
-    app:canalGradientPositions="@array/canal_positions"
-    app:canalGradientTileMode="mirror" />
-```
+ - progress				
+ - roundTips				
+ - shadowLeft				
+ - shadowTop				
+ - shadowRight				
+ - shadowBottom				
+ - progressScale				
+ - indicatorWidth				
+ - canalWidth				
+ - [prefix]StartAngle			
+ - [prefix]EndAngle			
+ - [prefix]Color				
+ - [prefix]DrawGradient			
+ - [prefix]GradientAngle			
+ - [prefix]GradientWidth			
+ - [prefix]GradientColors			
+ - [prefix]GradientPositions		
+ - [prefix]GradientTileMode		
+ - [prefix]HasShadow			
+ - [prefix]ShadowColor			
+ - [prefix]ShadowDrawGradient		
+ - [prefix]ShadowGradientAngle		
+ - [prefix]ShadowGradientWidth		
+ - [prefix]ShadowGradientColors		
+ - [prefix]ShadowGradientPositions	
+ - [prefix]ShadowBlurValue		
+ - [prefix]ShadowGradientTileMode		
 
 #### Color array
 
