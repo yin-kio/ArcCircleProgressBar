@@ -41,6 +41,13 @@ class ArcCircleProgressBar : View {
         invalidate()
     }
 
+    var progressScale: Float = 0.95f
+    var shadowLeft: Float = 10f
+    var shadowTop: Float = 10f
+    var shadowRight: Float = 10f
+    var shadowBottom: Float = 10f
+
+
 
 
     private fun init(context: Context?, attrs: AttributeSet?){
@@ -50,6 +57,13 @@ class ArcCircleProgressBar : View {
             0
         ){
             val isRoundTips = getBoolean(R.styleable.ArcCircleProgressBar_roundTips, true)
+            progressScale = getFloat(R.styleable.ArcCircleProgressBar_progressScale, 0.95f)
+
+            shadowLeft = getFloat(R.styleable.ArcCircleProgressBar_shadowLeft, 10f)
+            shadowTop = getFloat(R.styleable.ArcCircleProgressBar_shadowTop, 10f)
+            shadowRight = getFloat(R.styleable.ArcCircleProgressBar_shadowRight, 10f)
+            shadowBottom = getFloat(R.styleable.ArcCircleProgressBar_shadowBottom, 10f)
+
             setupIndicator(isRoundTips)
             setupCanal(isRoundTips)
 
@@ -273,11 +287,11 @@ class ArcCircleProgressBar : View {
         canvas.apply {
 
             oval.apply {
-                val newRadius = radius * 0.7f
-                set(centerX + 10f - newRadius,
-                    centerY + 10f - newRadius,
-                    centerX + 10f + newRadius,
-                    centerY + 10f + newRadius)
+                val newRadius = radius * progressScale
+                set(centerX + shadowLeft - newRadius,
+                    centerY + shadowTop - newRadius,
+                    centerX + shadowRight + newRadius,
+                    centerY + shadowBottom + newRadius)
             }
 
             if (indicator.hasShadow){
@@ -295,7 +309,7 @@ class ArcCircleProgressBar : View {
             }
 
             oval.apply {
-                val newRadius = radius * 0.7f
+                val newRadius = radius * progressScale
                 set(centerX - newRadius,
                     centerY - newRadius,
                     centerX + newRadius,

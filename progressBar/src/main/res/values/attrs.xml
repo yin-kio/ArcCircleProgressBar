@@ -3,7 +3,14 @@
 
     <declare-styleable name="ArcCircleProgressBar">
         <attr name="progress" format="float"/>
+        <attr name="progressScale" format="float"/>
         <attr name="roundTips" format="boolean"/>
+
+        <attr name="shadowLeft" format="float"/>
+        <attr name="shadowTop" format="float"/>
+        <attr name="shadowRight" format="float"/>
+        <attr name="shadowBottom" format="float"/>
+
 
         <attr name="indicatorWidth" format="dimension"/>
         <attr name="indicatorStartAngle" format="float"/>
