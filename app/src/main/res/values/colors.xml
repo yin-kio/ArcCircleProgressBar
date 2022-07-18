@@ -9,9 +9,8 @@
     <color name="white">#FFFFFFFF</color>
 
     <array name="indicator_colors">
-        <item>#D11212</item>
-        <item>#08FF3D</item>
-        <item>#0040FF</item>
+        <item>#FF8E00</item>
+        <item>#0A00FF</item>
     </array>
 
     <array name="canal_colors">
@@ -21,8 +20,9 @@
     </array>
 
     <array name="progress_shadow_colors">
-        <item>#0037FF</item>
-        <item>#00FF00</item>
+        <item>#800600A6</item>
+        <item>#80A65C00</item>
+        <item>#8000A643</item>
     </array>
 
 

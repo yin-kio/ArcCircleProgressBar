@@ -34,9 +34,13 @@ class ArcCircleProgressBar : View {
     val indicator = Arc.Indicator(this)
     val canal = Arc.Canal()
 
-    var progress: Float = 100f
+    var progress: Float = 0f
     set(value) {
-        field = value
+        field = when{
+            value > 100f -> 100f
+            value < 0 -> 0f
+            else -> value
+        }
         indicator.progress = value
         invalidate()
     }
@@ -58,6 +62,8 @@ class ArcCircleProgressBar : View {
         ){
             val isRoundTips = getBoolean(R.styleable.ArcCircleProgressBar_roundTips, true)
             progressScale = getFloat(R.styleable.ArcCircleProgressBar_progressScale, 0.95f)
+
+            progress = getFloat(R.styleable.ArcCircleProgressBar_progress, 0f)
 
             shadowLeft = getFloat(R.styleable.ArcCircleProgressBar_shadowLeft, 10f)
             shadowTop = getFloat(R.styleable.ArcCircleProgressBar_shadowTop, 10f)

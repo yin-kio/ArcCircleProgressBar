@@ -11,42 +11,65 @@
         android:layout_height="200dp"
         android:layout_gravity="center"
         android:elevation="8dp"
-        android:background="@color/black"
 
         app:shadowLeft="10"
         app:shadowTop="10"
         app:shadowBottom="10"
         app:shadowRight="10"
 
-        app:progress="50"
+        app:progress="95"
         app:roundTips="true"
+        app:progressScale="0.9"
 
         app:indicatorWidth="20dp"
-        app:indicatorStartAngle="0"
+        app:indicatorStartAngle="-90"
         app:indicatorEndAngle="270"
-        app:indicatorColor="#FDDB00"
+        app:indicatorColor="#FF8E00"
         app:indicatorDrawGradient="false"
         app:indicatorGradientAngle="90"
-        app:indicatorGradientWidth="100dp"
-        app:indicatorGradientTileMode="mirror"
-        app:indicatorGradientColors="@array/indicator_colors"
+        app:indicatorGradientWidth="200dp"
+        app:indicatorGradientTileMode="repeat"
+        app:indicatorShadowGradientPositions="@array/indicator_positions"
+        app:indicatorShadowGradientTileMode="repeat"
+        app:indicatorShadowGradientWidth="200dp"
+        app:indicatorShadowGradientAngle="90"
         app:indicatorShadowBlurValue="25"
-        app:indicatorShadowDrawGradient="false"
+        app:indicatorShadowDrawGradient="true"
+        app:indicatorShadowGradientColors="@array/indicator_colors"
         app:indicatorHasShadow="true"
-        app:indicatorShadowColor="@color/teal_200"
 
 
-        app:canalStartAngle="0"
+        app:canalStartAngle="-90"
         app:canalEndAngle="270"
         app:canalWidth="10dp"
-        app:canalColor="#3D9110"
+        app:canalColor="#0A00FF"
         app:canalDrawGradient="false"
         app:canalGradientAngle="30"
         app:canalGradientWidth="100dp"
         app:canalGradientTileMode="mirror"
         app:canalShadowBlurValue="25"
         app:canalShadowDrawGradient="false"
+        app:canalShadowGradientColors="@array/progress_shadow_colors"
         app:canalHasShadow="true"
-        app:canalShadowColor="@color/purple_500"/>
+        app:canalShadowColor="#0A00FF"/>
+
+    <Button
+        android:id="@+id/decreaseProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Decrease" />
+
+    <Button
+        android:id="@+id/increaseProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="Increase" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
 </FrameLayout>
