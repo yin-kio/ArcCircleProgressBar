@@ -16,7 +16,6 @@ import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
 
-private const val BLUR_RADIUS = 25f
 
 class ArcCircleProgressBar : View {
 
@@ -98,7 +97,7 @@ class ArcCircleProgressBar : View {
                 shadowPaint.apply {
                     shader = gradient(
                         positionsResId = R.styleable.ArcCircleProgressBar_indicatorShadowGradientPositions,
-                        colorsRes = R.styleable.ArcCircleProgressBar_indicatorShadowColors,
+                        colorsRes = R.styleable.ArcCircleProgressBar_indicatorShadowGradientColors,
                         angleIndex = R.styleable.ArcCircleProgressBar_indicatorShadowGradientAngle,
                         radiusIndex = R.styleable.ArcCircleProgressBar_indicatorShadowGradientWidth,
                         tileModeIndex = R.styleable.ArcCircleProgressBar_indicatorShadowGradientTileMode
@@ -106,6 +105,8 @@ class ArcCircleProgressBar : View {
                 }
 
                 shadowBlurRadius = getFloat(R.styleable.ArcCircleProgressBar_indicatorShadowBlurValue, 25f)
+
+                shadowPaint.color = Color.BLUE
 
 
                 setupShadowPaint()
@@ -143,7 +144,7 @@ class ArcCircleProgressBar : View {
                 shadowPaint.apply {
                     shader = gradient(
                         positionsResId = R.styleable.ArcCircleProgressBar_canalShadowGradientPositions,
-                        colorsRes = R.styleable.ArcCircleProgressBar_canalShadowColors,
+                        colorsRes = R.styleable.ArcCircleProgressBar_canalShadowGradientColors,
                         angleIndex = R.styleable.ArcCircleProgressBar_canalShadowGradientAngle,
                         radiusIndex = R.styleable.ArcCircleProgressBar_canalShadowGradientWidth,
                         tileModeIndex = R.styleable.ArcCircleProgressBar_canalShadowGradientTileMode

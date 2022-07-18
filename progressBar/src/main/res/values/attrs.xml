@@ -32,7 +32,7 @@
         <attr name="indicatorShadowDrawGradient" format="boolean"/>
         <attr name="indicatorShadowGradientAngle" format="float"/>
         <attr name="indicatorShadowGradientWidth" format="dimension"/>
-        <attr name="indicatorShadowColors" format="reference"/>
+        <attr name="indicatorShadowGradientColors" format="reference"/>
         <attr name="indicatorShadowGradientPositions" format="reference"/>
         <attr name="indicatorShadowBlurValue" format="float"/>
         <attr name="indicatorShadowGradientTileMode" format="integer">
@@ -64,7 +64,7 @@
         <attr name="canalShadowDrawGradient" format="boolean"/>
         <attr name="canalShadowGradientAngle" format="float"/>
         <attr name="canalShadowGradientWidth" format="dimension"/>
-        <attr name="canalShadowColors" format="reference"/>
+        <attr name="canalShadowGradientColors" format="reference"/>
         <attr name="canalShadowGradientPositions" format="reference"/>
         <attr name="canalShadowBlurValue" format="float"/>
         <attr name="canalShadowGradientTileMode" format="integer">
