@@ -1,4 +1,4 @@
-# ArcCircleProgressBar - Flexibility is a Power!
+# ArcCircleProgressBar - Flexibility is Power!
 
 This is a flexible arc or circle progress bar.
 
