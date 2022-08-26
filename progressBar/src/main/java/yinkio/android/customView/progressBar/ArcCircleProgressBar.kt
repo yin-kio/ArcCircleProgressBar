@@ -53,6 +53,16 @@ class ArcCircleProgressBar : View {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
+    init {
+        addOnAttachStateChangeListener(object : OnAttachStateChangeListener{
+            override fun onViewAttachedToWindow(p0: View?) {}
+
+            override fun onViewDetachedFromWindow(p0: View?) {
+                coroutineScope.cancel()
+            }
+        })
+    }
+
 
     private fun init(context: Context?, attrs: AttributeSet?){
         context?.withStyledAttributes(
@@ -277,11 +287,6 @@ class ArcCircleProgressBar : View {
         return array
     }
 
-
-
-
-
-
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         setMeasuredDimension(widthMeasureSpec + (paddingLeft + paddingRight),
@@ -315,7 +320,7 @@ class ArcCircleProgressBar : View {
                     centerY + shadowBottom + newRadius)
             }
 
-            runBlocking {
+            coroutineScope.launch {
                 val canalShadow = if (canal.hasShadow){
                     coroutineScope.async {
                         shadowBitmap(blurRadius = canal.shadowBlurRadius) {
